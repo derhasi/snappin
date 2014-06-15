@@ -11,7 +11,7 @@
     "default_title": "Take a screen shot!"
   },
   "permissions": [
-    "*://code.google.com/"
+    "<all_urls>"
   ],
   "manifest_version": 2
 }

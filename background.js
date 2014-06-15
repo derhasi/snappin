@@ -11,47 +11,64 @@ var id = 100;
 
 function takeScreenshot() {
   chrome.tabs.captureVisibleTab(null, function(img) {
-    var screenshotUrl = img;
-    var viewTabUrl = chrome.extension.getURL('screenshot.html?id=' + id++)
 
-    chrome.tabs.create({url: viewTabUrl}, function(tab) {
-      var targetId = tab.id;
+    console.log(img);
 
-      var addSnapshotImageToTab = function(tabId, changedProps) {
-        // We are waiting for the tab we opened to finish loading.
-        // Check that the the tab's id matches the tab we opened,
-        // and that the tab is done loading.
-        if (tabId != targetId || changedProps.status != "complete")
-          return;
+    var pinBase = "http://www.pinterest.com/pin/create/button/";
+    var imgEncoded = encodeURIComponent(img);
+    var shareURL = "http://undpaul.de";
+    var shareURLEncoded = encodeURIComponent(shareURL);
+    var descrEncoded = encodeURIComponent('Title');
 
-        // Passing the above test means this is the event we were waiting for.
-        // There is nothing we need to do for future onUpdated events, so we
-        // use removeListner to stop geting called when onUpdated events fire.
-        chrome.tabs.onUpdated.removeListener(addSnapshotImageToTab);
+    // @todo: pinterest does not work with dara urls, so we may need a service
+    // to build the url
+    // maybe to imgur using
+    // @see http://29a.ch/2011/9/11/uploading-from-html5-canvas-to-imgur-data-uri
+    var url = pinBase;
+    url += '?url=' + shareURLEncoded;
+    url += '&media=' + imgEncoded
+    url += '&description=' + descrEncoded;
 
-        // Look through all views to find the window which will display
-        // the screenshot.  The url of the tab which will display the
-        // screenshot includes a query parameter with a unique id, which
-        // ensures that exactly one view will have the matching URL.
-        var views = chrome.extension.getViews();
-        for (var i = 0; i < views.length; i++) {
-          var view = views[i];
-          if (view.location.href == viewTabUrl) {
-            view.setScreenshotUrl(screenshotUrl);
-            break;
-          }
-        }
-      };
-      chrome.tabs.onUpdated.addListener(addSnapshotImageToTab);
+    console.log(url);
+
+    chrome.tabs.create({
+      url: url
     });
+
+//    chrome.tabs.create({url: viewTabUrl}, function(tab) {
+//      var targetId = tab.id;
+//
+//      var addSnapshotImageToTab = function(tabId, changedProps) {
+//        // We are waiting for the tab we opened to finish loading.
+//        // Check that the the tab's id matches the tab we opened,
+//        // and that the tab is done loading.
+//        if (tabId != targetId || changedProps.status != "complete")
+//          return;
+//
+//        // Passing the above test means this is the event we were waiting for.
+//        // There is nothing we need to do for future onUpdated events, so we
+//        // use removeListner to stop geting called when onUpdated events fire.
+//        chrome.tabs.onUpdated.removeListener(addSnapshotImageToTab);
+//
+//        // Look through all views to find the window which will display
+//        // the screenshot.  The url of the tab which will display the
+//        // screenshot includes a query parameter with a unique id, which
+//        // ensures that exactly one view will have the matching URL.
+//        var views = chrome.extension.getViews();
+//        for (var i = 0; i < views.length; i++) {
+//          var view = views[i];
+//          if (view.location.href == viewTabUrl) {
+//            view.setScreenshotUrl(screenshotUrl);
+//            break;
+//          }
+//        }
+//      };
+//      chrome.tabs.onUpdated.addListener(addSnapshotImageToTab);
+//    });
   });
 }
 
 // Listen for a click on the camera icon.  On that click, take a screenshot.
 chrome.browserAction.onClicked.addListener(function(tab) {
-  if (tab.url.match("^https?://code.google.com")) {
-    takeScreenshot();
-  } else {
-    alert('This sample can only take screenshots of code.google.com pages');
-  }
+  takeScreenshot();
 });
