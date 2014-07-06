@@ -37,6 +37,16 @@ function takeScreenshot(dimensions) {
         url: croppedDataUrl
       });
 
+      snappinImgur.upload(croppedDataUrl, function(err, link, deleteData) {
+
+        console.log(deleteData);
+
+        chrome.tabs.create({
+          url: link
+        });
+
+      });
+
     });
 
   });
