@@ -25,7 +25,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 function takeScreenshot(dimensions) {
 
-  chrome.tabs.captureVisibleTab(null, function(img) {
+  chrome.tabs.captureVisibleTab({format: "png"}, function(img) {
 
     console.log(img);
 
