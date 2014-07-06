@@ -24,16 +24,14 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 
 function takeScreenshot(dimensions) {
+
   chrome.tabs.captureVisibleTab(null, function(img) {
 
     console.log(img);
 
     var url = img;
 
-    fillCanvas(url, dimensions, function (canvas) {
-
-      // Create new dataurl for cropped image.
-      var croppedDataUrl = canvas.toDataURL();
+    snappinDataUrl.dataURLCrop(url, dimensions, function (croppedDataUrl) {
 
       chrome.tabs.create({
         url: croppedDataUrl
@@ -44,22 +42,4 @@ function takeScreenshot(dimensions) {
   });
 }
 
-
-function fillCanvas(dataURL, dimensions, callback) {
-  var canvas = document.getElementById('snappinCanvas');
-  var context = canvas.getContext('2d');
-
-  context.canvas.width = dimensions.w;
-  context.canvas.height = dimensions.h;
-
-  // load image from data url
-  var imageObj = new Image();
-  imageObj.onload = function() {
-    context.drawImage(this, -1 * dimensions.x , -1 * dimensions.x);
-
-    callback(canvas);
-  };
-  imageObj.src = dataURL;
-
-}
 
