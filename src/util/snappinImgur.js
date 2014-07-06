@@ -32,8 +32,6 @@ snappinImgur.upload = function(dataUrl, callback) {
         callback(data);
       }
 
-
-
     }
   }
 
@@ -46,7 +44,6 @@ snappinImgur.upload = function(dataUrl, callback) {
   };
 
   xhr.send(JSON.stringify(data));
-
 }
 
 /**

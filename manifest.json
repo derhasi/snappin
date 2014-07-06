@@ -8,6 +8,7 @@
     "scripts": [
       "src/util/snappinDataUrl.js",
       "src/util/snappinImgur.js",
+      "src/util/snappinPinterest.js",
       "src/background.js"
     ]
   },

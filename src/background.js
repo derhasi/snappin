@@ -22,28 +22,31 @@ chrome.browserAction.onClicked.addListener(function(tab) {
    });
 });
 
-
+/**
+ * Take screenshots.
+ *
+ * @param dimensions
+ */
 function takeScreenshot(dimensions) {
 
   chrome.tabs.captureVisibleTab({format: "png"}, function(img) {
 
     console.log(img);
-
     var url = img;
 
-    snappinDataUrl.dataURLCrop(url, dimensions, function (croppedDataUrl) {
 
-      chrome.tabs.create({
-        url: croppedDataUrl
-      });
+    snappinDataUrl.dataURLCrop(url, dimensions, function (croppedDataUrl) {
 
       snappinImgur.upload(croppedDataUrl, function(err, link, deleteData) {
 
         console.log(deleteData);
 
+        // Give share URL
+        var testURl = snappinPinterest.buildURL(link, 'http://undpaul.de', 'Test share');
         chrome.tabs.create({
-          url: link
+          url: testURl
         });
+
 
       });
 
