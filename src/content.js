@@ -14,12 +14,12 @@
     height: 0
   };
 
-  $('#snappinOverlay').mousedown(function (e) {
+  overlay.mousedown(function (e) {
 
     console.log(e);
 
     $('#snappinArea').remove();
-    var area = $("<div id=\"snappinArea\"></div>" ).appendTo("#snappinOverlay");
+    var area = $("<div id=\"snappinArea\"></div>" ).appendTo(overlay);
 
     dimensions.left = e.pageX;
     dimensions.top = e.pageY;
@@ -30,14 +30,14 @@
     area.offset(dimensions);
 
     // Update area dimensions on mouse move.
-    $('#snappinOverlay').mousemove(function(e2) {
+    overlay.mousemove(function(e2) {
       area.width(e2.pageX - dimensions.left);
       area.height(e2.pageY - dimensions.top);
     });
 
     // On mouse up, we end the area update.
-    $('#snappinOverlay').mouseup(function() {
-      $('#snappinOverlay').unbind('mousemove');
+    overlay.mouseup(function() {
+      overlay.unbind('mousemove');
     })
 
     // @todo: initScreenshot()
