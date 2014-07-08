@@ -1,4 +1,4 @@
-# snappin
+# snappin ![snapping logo](img/snappin48.png) 
 
 Experimental chrome extension for posting a snapshot to pinterest, heavily inspired by [ShotPin](http://shotpin.com/).
 
