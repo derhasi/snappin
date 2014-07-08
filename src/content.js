@@ -54,20 +54,22 @@
     var overlayOffset = overlay.offset();
     var areaOffset = area.offset();
 
+    // For avoiding the screenshot contains the border, we  have to do some math
+    // +1, -2.
+    // For some reason, removing the overlay before screenshotting does not help.
     var dim = {
-      x: areaOffset.left - overlayOffset.left,
-      y: areaOffset.top - overlayOffset.top,
-      w: area.outerWidth(),
-      h: area.outerHeight()
+      x: areaOffset.left - overlayOffset.left + 1,
+      y: areaOffset.top - overlayOffset.top + 1,
+      w: area.outerWidth() - 2,
+      h: area.outerHeight() - 2
     };
     console.log('dim', dim);
-
-    // Remove the overlay, before we take the screenshot.
-    removeOverlay();
 
     // Send message to the backgrund page, so a screenshot can be taken.
     chrome.runtime.sendMessage({dimensions: dim}, function(response) {
       console.log(response);
+
+      removeOverlay();
     });
 
 
