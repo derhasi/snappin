@@ -26,7 +26,7 @@ snappinDataUrl.dataURLCrop = function (dataURL, dimensions, callback) {
   // load image from data url
   var imageObj = new Image();
   imageObj.onload = function() {
-    context.drawImage(this, -1 * dimensions.x , -1 * dimensions.x);
+    context.drawImage(this, -1 * dimensions.x , -1 * dimensions.y);
 
     // Create new dataurl for cropped image.
     var croppedDataUrl = canvas.toDataURL();
